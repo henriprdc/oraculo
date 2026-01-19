@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if participante %}Editar{% else %}Novo{% endif %} Participante - Bolão dos Pescadores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <i class="fas fa-fish logo-icon"></i>
+                <h1 class="logo">Bolão dos Pescadores</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Início
+                </a>
+                <a href="{{ url_for('cadastro_participantes') }}" class="btn-secondary">
+                    <i class="fas fa-users"></i> Voltar para Lista
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-user-plus"></i>
+                    {% if participante %}Editar Participante{% else %}Novo Participante{% endif %}
+                </h1>
+                <a href="{{ url_for('cadastro_participantes') }}" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">
+                                {{ message }}
+                                <button class="flash-close" onclick="this.parentElement.remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form method="POST" action="{% if participante %}{{ url_for('atualizar_participante', id=participante.id) }}{% else %}{{ url_for('adicionar_participante') }}{% endif %}" class="participant-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="nome">
+                                <i class="fas fa-user"></i> Nome Completo *
+                            </label>
+                            <input type="text"
+                                   id="nome"
+                                   name="nome"
+                                   value="{{ participante.nome if participante else '' }}"
+                                   placeholder="Digite o nome completo"
+                                   required
+                                   autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apelido">
+                                <i class="fas fa-signature"></i> Apelido (Opcional)
+                            </label>
+                            <input type="text"
+                                   id="apelido"
+                                   name="apelido"
+                                   value="{{ participante.apelido if participante else '' }}"
+                                   placeholder="Como prefere ser chamado">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email"
+                                   id="email"
+                                   name="email"
+                                   value="{{ participante.email if participante else '' }}"
+                                   placeholder="email@exemplo.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">
+                                <i class="fas fa-phone"></i> Telefone
+                            </label>
+                            <input type="tel"
+                                   id="telefone"
+                                   name="telefone"
+                                   value="{{ participante.telefone if participante else '' }}"
+                                   placeholder="(11) 99999-9999"
+                                   pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}">
+                            <small>Formato: (11) 99999-9999</small>
+                        </div>
+
+                        {% if participante %}
+                        <div class="form-group">
+                            <label for="ativo" class="checkbox-label">
+                                <input type="checkbox"
+                                       id="ativo"
+                                       name="ativo"
+                                       {% if participante.ativo %}checked{% endif %}>
+                                <span class="checkmark"></span>
+                                <i class="fas fa-toggle-on"></i> Participante Ativo
+                            </label>
+                            <small>Desmarque para desativar o participante</small>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i>
+                            {% if participante %}Atualizar{% else %}Cadastrar{% endif %} Participante
+                        </button>
+                        <a href="{{ url_for('cadastro_participantes') }}" class="btn-cancel">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+
+                {% if participante %}
+                <div class="participant-info">
+                    <h3><i class="fas fa-info-circle"></i> Informações do Cadastro</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Data do Cadastro:</span>
+                            <span class="info-value">{{ participante.data_cadastro }}</span>
+                        </div>
+                        {% if participante.data_atualizacao %}
+                        <div class="info-item">
+                            <span class="info-label">Última Atualização:</span>
+                            <span class="info-value">{{ participante.data_atualizacao }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="info-item">
+                            <span class="info-label">ID do Participante:</span>
+                            <span class="info-value">#{{ participante.id }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bolão dos Pescadores</h3>
+                    <p>Cadastro de participantes</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Bolão dos Pescadores</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Formatação automática do telefone
+        document.getElementById('telefone')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length > 10) {
+                value = value.substring(0, 11);
+            }
+
+            if (value.length > 6) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            } else if (value.length > 0) {
+                value = value.replace(/^(\d*)/, '($1');
+            }
+
+            e.target.value = value;
+        });
+
+        // Auto-remove flash messages
+        setTimeout(() => {
+            const flashes = document.querySelectorAll('.flash');
+            flashes.forEach(flash => {
+                flash.style.opacity = '0';
+                setTimeout(() => flash.remove(), 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

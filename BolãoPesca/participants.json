@@ -1,0 +1,120 @@
+[
+  {
+    "id": 1,
+    "nome": "Henrique Prudêncio",
+    "email": "",
+    "telefone": "",
+    "apelido": "Henrique",
+    "data_cadastro": "16/01/2026 22:29",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {
+      "1": {
+        "placar_casa": 1,
+        "placar_visitante": 0,
+        "data_palpite": "2026-01-17 10:05",
+        "rodada": 1
+      },
+      "2": {
+        "placar_casa": 1,
+        "placar_visitante": 1,
+        "data_palpite": "2026-01-19 18:09",
+        "rodada": 1
+      }
+    },
+    "ultimo_palpite": "2026-01-19 18:09"
+  },
+  {
+    "id": 2,
+    "nome": "Felipe Lichmann",
+    "email": "",
+    "telefone": "",
+    "apelido": "Lichmann",
+    "data_cadastro": "16/01/2026 23:32",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 3,
+    "nome": "Leonardo Trevisane",
+    "email": "",
+    "telefone": "",
+    "apelido": "Léo Café",
+    "data_cadastro": "16/01/2026 23:33",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 4,
+    "nome": "Leonardo Rocha",
+    "email": "",
+    "telefone": "",
+    "apelido": "Léo Rocha",
+    "data_cadastro": "16/01/2026 23:33",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 5,
+    "nome": "Lucah Ferrari",
+    "email": "",
+    "telefone": "",
+    "apelido": "Lucah",
+    "data_cadastro": "16/01/2026 23:33",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 6,
+    "nome": "Luiz Filipe",
+    "email": "",
+    "telefone": "",
+    "apelido": "Lipe",
+    "data_cadastro": "16/01/2026 23:33",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 7,
+    "nome": "Murilo Moura",
+    "email": "",
+    "telefone": "",
+    "apelido": "Murilo",
+    "data_cadastro": "16/01/2026 23:33",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {}
+  },
+  {
+    "id": 8,
+    "nome": "Rosalvo Júnior",
+    "email": "",
+    "telefone": "",
+    "apelido": "Rosalvo",
+    "data_cadastro": "16/01/2026 23:34",
+    "pontos": 0,
+    "acertos": 0,
+    "ativo": true,
+    "palpites": {
+      "3": {
+        "placar_casa": 2,
+        "placar_visitante": 1,
+        "data_palpite": "2026-01-19 18:22",
+        "rodada": 1
+      }
+    },
+    "ultimo_palpite": "2026-01-19 18:22"
+  }
+]

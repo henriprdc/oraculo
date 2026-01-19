@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Participantes - Bolão dos Pescadores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <i class="fas fa-fish logo-icon"></i>
+                <h1 class="logo">Bolão dos Pescadores</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Início
+                </a>
+                <a href="{{ url_for('cadastro_jogos') }}" class="nav-link">
+                    <i class="fas fa-futbol"></i> Cadastrar Jogos
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1><i class="fas fa-users"></i> Cadastro de Participantes</h1>
+                <a href="{{ url_for('novo_participante') }}" class="btn-primary">
+                    <i class="fas fa-plus"></i> Novo Participante
+                </a>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">
+                                {{ message }}
+                                <button class="flash-close" onclick="this.parentElement.remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total de Participantes</h3>
+                        <p class="stat-number">{{ total }}</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon active">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Ativos</h3>
+                        <p class="stat-number">{{ participants|selectattr('ativo')|list|length }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participants Table -->
+            <div class="table-container">
+                {% if participants %}
+                    <table class="participants-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Apelido</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Cadastro</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for participante in participants %}
+                            <tr class="participant-row {% if not participante.ativo %}inactive{% endif %}">
+                                <td class="participant-id">#{{ participante.id }}</td>
+                                <td class="participant-name">
+                                    <div class="avatar-small">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    {{ participante.nome }}
+                                </td>
+                                <td class="participant-nickname">
+                                    {% if participante.apelido %}
+                                        {{ participante.apelido }}
+                                    {% else %}
+                                        <span class="empty">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="participant-email">
+                                    <a href="mailto:{{ participante.email }}">
+                                        {{ participante.email or '-' }}
+                                    </a>
+                                </td>
+                                <td class="participant-phone">
+                                    {{ participante.telefone or '-' }}
+                                </td>
+                                <td class="participant-date">
+                                    {{ participante.data_cadastro }}
+                                </td>
+                                <td class="participant-status">
+                                    <span class="status-badge {% if participante.ativo %}active{% else %}inactive{% endif %}">
+                                        {% if participante.ativo %}
+                                            <i class="fas fa-check-circle"></i> Ativo
+                                        {% else %}
+                                            <i class="fas fa-times-circle"></i> Inativo
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="participant-actions">
+                                    <div class="action-buttons">
+                                        <a href="{{ url_for('editar_participante', id=participante.id) }}"
+                                            class="btn-action btn-edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url_for('excluir_participante', id=participante.id) }}"
+                                           class="btn-action btn-delete"
+                                           title="Excluir"
+                                           onclick="return confirm('Tem certeza que deseja excluir este participante?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-users-slash"></i>
+                        <h3>Nenhum participante cadastrado</h3>
+                        <p>Comece cadastrando o primeiro participante!</p>
+                        <a href="{{ url_for('novo_participante') }}" class="btn-primary">
+                            <i class="fas fa-plus"></i> Cadastrar Participante
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bolão dos Pescadores</h3>
+                    <p>Gerenciamento de participantes</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Bolão dos Pescadores</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-remove flash messages after 5 seconds
+        setTimeout(() => {
+            const flashes = document.querySelectorAll('.flash');
+            flashes.forEach(flash => {
+                flash.style.opacity = '0';
+                setTimeout(() => flash.remove(), 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
